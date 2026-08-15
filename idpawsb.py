@@ -1,0 +1,176 @@
+#!/usr/bin/env python3
+
+import argparse
+import datetime
+import re
+import sys
+from pathlib import Path
+
+from bs4 import BeautifulSoup
+
+
+def process_export(file, args):
+    with open(file, "rb") as f:
+        soup = BeautifulSoup(f, "html.parser")
+
+    # Safe-guard template if passed by mistake
+    if soup.find("span", string="[[stage-name]]"):
+        print(f"skipping template file '{file.name}'! did you forget to pass '-t --template'?")
+        return 1
+
+    # Set title
+    soup.title.string = file.stem
+
+    # Fix main image path
+    mainimg = soup.find("img", src=re.compile("_main.JPG"))
+    mainimg["src"] = mainimg["src"].replace("main", "Default")
+
+    # Scoring & Hint Bullet
+    scoring = soup.find("span", string=re.compile(r"^\s*\d* rounds, \w*\s*$"))
+    rounds, _, scoringtype = scoring.string.split()
+    # scoringtype = "Limited"  # DEBUG
+
+    soup.find("span", string=re.compile(r"^\s*#\s*$")).string = rounds
+    hintbullet = soup.find("span", string=re.compile(r"^\s*∞⚠\s*$"))
+
+    if scoringtype == "Unlimited":
+        scoring.string += "∞"
+        hintbullet.string = "∞"
+    else:
+        scoring.append(soup.new_tag("span", string="⚠", style="color:#ff0000;"))
+        hintbullet.string = ""
+        hintbullet.append(soup.new_tag("span", string="⚠", style="color:#ff0000;"))
+
+    # Concealment & Hint Vest
+    vest = soup.find("span", string=re.compile(r"^\s*\w*\s*Required\s*$"))
+    vestreq = "NOT" not in vest.string
+    # vestreq = False  # DEBUG
+
+    hintvest = soup.find("span", string=re.compile(r"^\s*✓✗\s*$"))
+
+    if vestreq:
+        vest.string += "✓"
+        hintvest.string = "✓"
+    else:
+        vest.append(soup.new_tag("span", string="✗", style="color:#ff8c00;"))
+        hintvest.string = ""
+        hintvest.append(soup.new_tag("span", string="✗", style="color:#ff8c00;"))
+
+    # Hint Pistol
+    condition = soup.find("span", string=re.compile(r"^\s*Gun \w*,?\s*\w*\s*\w*")).string.split()[1:4]
+    loaded = "loaded" in condition[0]
+    loaded, chambered = "loaded" in condition[0], False
+    if loaded:
+        chambered = "empty" not in condition[2]
+    # loaded, chambered = True, False  # DEBUG
+
+    hintchamber, hintpistol = soup.find_all("span", string=re.compile(r"^\s*✓✗\s*$"), limit=2)
+
+    if loaded:
+        hintpistol.string = "✓"
+    else:
+        hintpistol.string = ""
+        hintpistol.append(soup.new_tag("span", string="✗", style="color:#ff8c00;"))
+
+    if chambered:
+        hintchamber.string = "✓"
+    else:
+        hintchamber.string = ""
+        hintchamber.append(soup.new_tag("span", string="✗", style="color:#ff8c00;"))
+
+    # Remove "0 Plates" and "Plate must fall" if 0
+    plates = soup.find_all("span", string=re.compile("0 Plates"))
+    if plates:
+        for span in soup.find_all("span", string=re.compile("0 Plates")):
+            span.string = span.string.replace(", 0 Plates", "")
+        for span in soup.find_all("span", string=re.compile(", Plate must fall")):
+            span.string = span.string.replace(", Plate must fall", "")
+
+    # Remove Aadditional Views if empty
+    additionalviews = soup.find("div", string=re.compile(re.escape("[[additional-views-grid]]")))
+    if additionalviews:
+        additionalviews.find_parent("section").extract()
+
+    # Find newlines and replace with <br>
+    for span in soup.find_all("span", string=re.compile("\r\n")):
+        lines = span.string.splitlines()
+        span.string = ""
+        span.append(soup.new_string(lines[1]))
+        for line in lines[2:]:
+            span.append(soup.new_tag("br"))
+            span.append(soup.new_string(line))
+
+    # Set export date and version
+    for watermark in soup.find_all("div", string=re.compile(r"^\s*Built with Practisim Designer\s*$")):
+        watermark.string += f" - {datetime.datetime.now():%Y-%m-%d %H:%M}"
+
+        if args.tag_version:
+            watermark.string += f" (v{args.tag_version})"
+
+    if args.tag_version:
+        print(f"tag-version={args.tag_version}")
+    else:
+        print("no tag-version specified")
+
+    with open(file.parent / f"{file.stem} Processed.html", "w") as f:
+        f.write(soup.prettify())
+        print(f"-> '{f.name}'")
+
+
+def process_template(file):
+    with open(file, "rb") as f:
+        soup = BeautifulSoup(f, "html.parser")
+
+    # Safe-guard export if passed by mistake
+    if not soup.find("span", string="[[stage-name]]"):
+        print(f"skipping export file '{file.name}'!")
+        return 1
+
+    # Improve CSS
+    soup.style.string = soup.style.string.replace("white-space: pre-wrap;", "")
+    soup.style.string = soup.style.string.replace("overflow: hidden;", "")  # allow longer text to overlap (to spot it easier)
+
+    for div in soup.find_all("div", attrs={"style": re.compile("white-space:pre-wrap;")}):
+        div["style"] = div["style"].replace("white-space:pre-wrap;", "")
+
+    # Rename watermark
+    for watermark in soup.find_all("div", string=re.compile(r"^Generated by")):
+        watermark.string = "Built with Practisim Designer"
+
+    # Fix Scenario and Stage Procedure merge fields
+    for span in soup.find_all("span", string="[[procedure]]"):
+        span.string = "[[scenario]]"
+    for span in soup.find_all("span", string="[[full-briefing]]"):
+        span.string = "[[procedure]]"
+
+    with open(file.parent / f"{file.stem} Improved.html", "w") as f:
+        f.write(soup.prettify())
+        print(f"-> '{f.name}'")
+
+
+def main():
+    # Parse arguments
+    parser = argparse.ArgumentParser(description="Improves the generated Practisim Designer WSB HTML template/export.")
+    parser.add_argument("files", type=Path, nargs="+", help="path to WSB HTML template/export")
+    parser.add_argument("-t", "--template", action="store_true", help="improve a template (otherwise export is presumed)")
+    parser.add_argument("--tag-version", type=str, help="version to tag the export with (eg. v1 in footer)")
+    args = parser.parse_args()
+
+    for file in args.files:
+        if not file.exists():
+            parser.error(f"invalid file: '{file}'")
+
+    # Process
+    for file in args.files:
+        if args.template:
+            print(f"processing '{file}' as template")
+            process_template(file)
+        else:
+            print(f"processing '{file}' as export")
+            process_export(file, args)
+
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())
