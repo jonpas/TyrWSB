@@ -22,49 +22,60 @@ def process_export(file, args):
     soup.title.string = file.stem
 
     # Fix main image path
-    mainimg = soup.find("img", src=re.compile("_main.JPG"))
+    mainimg = soup.find("img", src=re.compile("_main.JPG", flags=re.IGNORECASE))
     mainimg["src"] = mainimg["src"].replace("main", "Default")
 
+    # Move custom Scored Hits from Notes
+    scoredhits = soup.find("span", string=re.compile(r"^Best \d*", flags=re.IGNORECASE))
+    scoredhitsnotes = soup.find("span", string=re.compile(r"Scored Hits:", flags=re.IGNORECASE))
+    if scoredhitsnotes:
+        newscoredhits = re.search(r"^Scored Hits:\s*(.*)$", scoredhitsnotes.string, flags=re.IGNORECASE | re.MULTILINE).group(1).strip()
+        scoredhits.string = f"Best {newscoredhits}"
+        scoredhitsnotes.string = re.sub(r"\r?\n?^Scored Hits:.*$", "", scoredhitsnotes.string, count=1, flags=re.IGNORECASE | re.MULTILINE)
+
     # Scoring & Hint Bullet
-    scoring = soup.find("span", string=re.compile(r"^\s*\d* rounds, \w*\s*$"))
+    scoring = soup.find("span", string=re.compile(r"^\d* rounds, \w*$", flags=re.IGNORECASE))
     rounds, _, scoringtype = scoring.string.split()
     # scoringtype = "Limited"  # DEBUG
 
-    soup.find("span", string=re.compile(r"^\s*#\s*$")).string = rounds
-    hintbullet = soup.find("span", string=re.compile(r"^\s*∞⚠\s*$"))
+    soup.find("span", string=re.compile(r"^#$")).string = rounds
+    hintbullet = soup.find("span", string=re.compile(r"^∞⚠$"))
 
     if scoringtype == "Unlimited":
-        scoring.string += "∞"
+        scoring.string += " ∞"
         hintbullet.string = "∞"
     else:
-        scoring.append(soup.new_tag("span", string="⚠", style="color:#ff0000;"))
+        scoring.append(soup.new_tag("span", string=" ⚠", style="color:#ff0000;"))
         hintbullet.string = ""
         hintbullet.append(soup.new_tag("span", string="⚠", style="color:#ff0000;"))
 
+        # Replace "Best N" with "Worst N" in Limited scoring
+        scoredhits.string = scoredhits.string.replace("Best", "Worst")
+
     # Concealment & Hint Vest
-    vest = soup.find("span", string=re.compile(r"^\s*\w*\s*Required\s*$"))
+    vest = soup.find("span", string=re.compile(r"^\w*\s*Required$", flags=re.IGNORECASE))
     vestreq = "NOT" not in vest.string
     # vestreq = False  # DEBUG
 
-    hintvest = soup.find("span", string=re.compile(r"^\s*✓✗\s*$"))
+    hintvest = soup.find("span", string=re.compile(r"^✓✗$"))
 
     if vestreq:
-        vest.string += "✓"
+        vest.string += " ✓"
         hintvest.string = "✓"
     else:
-        vest.append(soup.new_tag("span", string="✗", style="color:#ff8c00;"))
+        vest.append(soup.new_tag("span", string=" ✗", style="color:#ff8c00;"))
         hintvest.string = ""
         hintvest.append(soup.new_tag("span", string="✗", style="color:#ff8c00;"))
 
     # Hint Pistol
-    condition = soup.find("span", string=re.compile(r"^\s*Gun \w*,?\s*\w*\s*\w*")).string.split()[1:4]
+    condition = soup.find("span", string=re.compile(r"^\s*Gun \w*,?\s*\w*\s*\w*", flags=re.IGNORECASE)).string.split()[1:4]
     loaded = "loaded" in condition[0]
     loaded, chambered = "loaded" in condition[0], False
     if loaded:
         chambered = "empty" not in condition[2]
     # loaded, chambered = True, False  # DEBUG
 
-    hintchamber, hintpistol = soup.find_all("span", string=re.compile(r"^\s*✓✗\s*$"), limit=2)
+    hintchamber, hintpistol = soup.find_all("span", string=re.compile(r"^✓✗$"), limit=2)
 
     if loaded:
         hintpistol.string = "✓"
@@ -78,31 +89,22 @@ def process_export(file, args):
         hintchamber.string = ""
         hintchamber.append(soup.new_tag("span", string="✗", style="color:#ff8c00;"))
 
-    # Remove "0 Plates" and "Plate must fall" if 0
-    plates = soup.find_all("span", string=re.compile("0 Plates"))
+    # Remove "0 Plate" and "Plate must fall" if 0
+    plates = soup.find_all("span", string=re.compile("0 Plate", flags=re.IGNORECASE))
     if plates:
-        for span in soup.find_all("span", string=re.compile("0 Plates")):
-            span.string = span.string.replace(", 0 Plates", "")
-        for span in soup.find_all("span", string=re.compile(", Plate must fall")):
+        for span in soup.find_all("span", string=re.compile("0 Plate", flags=re.IGNORECASE)):
+            span.string = span.string.replace(", 0 Plate", "")
+        for span in soup.find_all("span", string=re.compile(", Plate must fall", flags=re.IGNORECASE)):
             span.string = span.string.replace(", Plate must fall", "")
 
-    # Remove Aadditional Views if empty
+    # Remove Additional Views if empty
     additionalviews = soup.find("div", string=re.compile(re.escape("[[additional-views-grid]]")))
     if additionalviews:
         additionalviews.find_parent("section").extract()
 
-    # Find newlines and replace with <br>
-    for span in soup.find_all("span", string=re.compile("\r\n")):
-        lines = span.string.splitlines()
-        span.string = ""
-        span.append(soup.new_string(lines[1]))
-        for line in lines[2:]:
-            span.append(soup.new_tag("br"))
-            span.append(soup.new_string(line))
-
     # Set export date and version
-    for watermark in soup.find_all("div", string=re.compile(r"^\s*Built with Practisim Designer\s*$")):
-        watermark.string += f" - {datetime.datetime.now():%Y-%m-%d %H:%M}"
+    for watermark in soup.find_all("div", string=re.compile(r"^Built with Practisim Designer$", flags=re.IGNORECASE)):
+        watermark.string += f" - {datetime.datetime.now():%Y-%m-%d}"
 
         if args.tag_version:
             watermark.string += f" (v{args.tag_version})"
@@ -113,7 +115,7 @@ def process_export(file, args):
         print("no tag-version specified")
 
     with open(file.parent / f"{file.stem} Processed.html", "w") as f:
-        f.write(soup.prettify())
+        f.write(str(soup))
         print(f"-> '{f.name}'")
 
 
@@ -127,14 +129,13 @@ def process_template(file):
         return 1
 
     # Improve CSS
-    soup.style.string = soup.style.string.replace("white-space: pre-wrap;", "")
     soup.style.string = soup.style.string.replace("overflow: hidden;", "")  # allow longer text to overlap (to spot it easier)
 
-    for div in soup.find_all("div", attrs={"style": re.compile("white-space:pre-wrap;")}):
-        div["style"] = div["style"].replace("white-space:pre-wrap;", "")
+    # Set match logo image path
+    soup.find("img", src="[[custom-image:logo]]")["src"] = "WSB-Logo.svg"
 
     # Rename watermark
-    for watermark in soup.find_all("div", string=re.compile(r"^Generated by")):
+    for watermark in soup.find_all("div", string=re.compile(r"^Generated by", flags=re.IGNORECASE)):
         watermark.string = "Built with Practisim Designer"
 
     # Fix Scenario and Stage Procedure merge fields
@@ -144,7 +145,7 @@ def process_template(file):
         span.string = "[[procedure]]"
 
     with open(file.parent / f"{file.stem} Improved.html", "w") as f:
-        f.write(soup.prettify())
+        f.write(str(soup))
         print(f"-> '{f.name}'")
 
 
