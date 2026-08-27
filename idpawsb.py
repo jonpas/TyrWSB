@@ -28,10 +28,12 @@ def process_export(file, args):
     # Move custom Scored Hits from Notes
     scoredhits = soup.find("span", string=re.compile(r"^Best \d*", flags=re.IGNORECASE))
     scoredhitsnotes = soup.find("span", string=re.compile(r"Scored Hits:", flags=re.IGNORECASE))
+    wsbscoredhits = soup.find("span", string=re.compile(r"Best \d+ will be scored", flags=re.IGNORECASE))
     if scoredhitsnotes:
         newscoredhits = re.search(r"^Scored Hits:\s*(.*)$", scoredhitsnotes.string, flags=re.IGNORECASE | re.MULTILINE).group(1).strip()
         scoredhits.string = f"Best {newscoredhits}"
         scoredhitsnotes.string = re.sub(r"\r?\n?^Scored Hits:.*$", "", scoredhitsnotes.string, count=1, flags=re.IGNORECASE | re.MULTILINE)
+        wsbscoredhits.string = re.sub(r"Best \d+ will be scored", f"Best {newscoredhits} will be scored", wsbscoredhits.string, count=1, flags=re.IGNORECASE)
 
     # Scoring & Hint Bullet
     scoring = soup.find("span", string=re.compile(r"^\d* rounds, \w*$", flags=re.IGNORECASE))
@@ -51,6 +53,7 @@ def process_export(file, args):
 
         # Replace "Best N" with "Worst N" in Limited scoring
         scoredhits.string = scoredhits.string.replace("Best", "Worst")
+        wsbscoredhits.string = wsbscoredhits.string.replace("Best", "Worst")
 
     # Concealment & Hint Vest
     vest = soup.find("span", string=re.compile(r"^\w*\s*Required$", flags=re.IGNORECASE))
@@ -89,13 +92,13 @@ def process_export(file, args):
         hintchamber.string = ""
         hintchamber.append(soup.new_tag("span", string="✗", style="color:#ff8c00;"))
 
-    # Remove "0 Plate" and "Plate must fall" if 0
+    # Remove "0 Plate(s)" and "Plate(s) must fall" if 0
     plates = soup.find_all("span", string=re.compile("0 Plate", flags=re.IGNORECASE))
     if plates:
         for span in soup.find_all("span", string=re.compile("0 Plate", flags=re.IGNORECASE)):
-            span.string = span.string.replace(", 0 Plate", "")
+            span.string = re.sub(r", 0 Plates?", "", span.string, count=1, flags=re.IGNORECASE)
         for span in soup.find_all("span", string=re.compile(", Plate must fall", flags=re.IGNORECASE)):
-            span.string = span.string.replace(", Plate must fall", "")
+            span.string = re.sub(r", Plates? must fall", "", span.string, count=1, flags=re.IGNORECASE)
 
     # Remove Additional Views if empty
     additionalviews = soup.find("div", string=re.compile(re.escape("[[additional-views-grid]]")))
