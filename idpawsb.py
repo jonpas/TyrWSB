@@ -117,6 +117,13 @@ def process_export(file, args):
     else:
         print("no tag-version specified")
 
+    if args.pages:
+        print(f"pages={args.pages}")
+        for i, section in enumerate(soup.find_all("section")):
+            if i + 1 not in args.pages:
+                print(f"removing page {i + 1}")
+                section.extract()
+
     with open(file.parent / f"{file.stem} Processed.html", "w") as f:
         f.write(str(soup))
         print(f"-> '{f.name}'")
@@ -158,6 +165,7 @@ def main():
     parser.add_argument("files", type=Path, nargs="+", help="path to WSB HTML template/export")
     parser.add_argument("-t", "--template", action="store_true", help="improve a template (otherwise export is presumed)")
     parser.add_argument("--tag-version", type=str, help="version to tag the export with (eg. v1 in footer)")
+    parser.add_argument("--pages", type=int, nargs="+", help="pages to keep, remove others")
     args = parser.parse_args()
 
     for file in args.files:
