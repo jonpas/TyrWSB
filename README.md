@@ -52,3 +52,9 @@ $ python idpawsb.py --tag-version "v1-distances" "../Match/Stages/Stage {1,2,3}.
 -> "../Match/Stages/Stage 2 Processed.html"
 -> "../Match/Stages/Stage 3 Processed.html"
 ```
+
+Process multiple stages removing retaining only the first 2 pages (removing 3rd page).
+```sh
+$ python idpawsb.py --tag-version "v1" --pages 1 2 "../Match/Stages/Stage 1.html"
+-> "../Match/Stages/Stage 1 Processed.html"
+```
