@@ -349,23 +349,6 @@
           }
         },
         {
-          "id": "text-fwskrca-mrt5jj5g",
-          "type": "text",
-          "xMm": 109,
-          "yMm": 91,
-          "widthMm": 30,
-          "heightMm": 35,
-          "zIndex": 1,
-          "opacity": 1,
-          "style": {
-            "fontSize": 11,
-            "color": "#000000",
-            "bold": true,
-            "lineHeight": 1.5
-          },
-          "content": "SCORING\nTARGETS\nSCORED HITS\nCONCEALMENT\nMUZZLE SAFE\nNOTES"
-        },
-        {
           "id": "text-2xlmjbc-mrt6386b",
           "type": "text",
           "xMm": 140,
@@ -542,7 +525,7 @@
           "id": "text-26gcvul-mst5d49f",
           "type": "text",
           "xMm": 140,
-          "yMm": 96.5,
+          "yMm": 97,
           "widthMm": 68,
           "heightMm": 6,
           "zIndex": 1,
@@ -560,7 +543,7 @@
           "id": "text-bmjlb6o-mst5d8ov",
           "type": "text",
           "xMm": 140,
-          "yMm": 102.5,
+          "yMm": 103,
           "widthMm": 68,
           "heightMm": 6,
           "zIndex": 1,
@@ -578,7 +561,7 @@
           "id": "text-89v05p6-mst5e716",
           "type": "text",
           "xMm": 140,
-          "yMm": 108.5,
+          "yMm": 109,
           "widthMm": 68,
           "heightMm": 6,
           "zIndex": 1,
@@ -596,9 +579,9 @@
           "id": "text-cfyexbe-mst5egal",
           "type": "text",
           "xMm": 140,
-          "yMm": 114.5,
+          "yMm": 115,
           "widthMm": 68,
-          "heightMm": 6,
+          "heightMm": 12,
           "zIndex": 1,
           "opacity": 1,
           "style": {
@@ -614,9 +597,9 @@
           "id": "text-ajyy94a-mst5h94z",
           "type": "text",
           "xMm": 109,
-          "yMm": 126,
+          "yMm": 128,
           "widthMm": 99,
-          "heightMm": 32,
+          "heightMm": 30,
           "zIndex": 1,
           "opacity": 1,
           "style": {
@@ -631,9 +614,9 @@
         {
           "id": "field-4aau4i9-mst6afrh",
           "type": "field",
-          "xMm": 27.5,
+          "xMm": 9,
           "yMm": 266,
-          "widthMm": 60,
+          "widthMm": 50,
           "heightMm": 5,
           "zIndex": 1,
           "opacity": 1,
@@ -648,8 +631,8 @@
         {
           "id": "text-6tz14sb-mstjcf9s",
           "type": "text",
-          "xMm": 9.5,
-          "yMm": 266,
+          "xMm": 9,
+          "yMm": 261,
           "widthMm": 20,
           "heightMm": 5,
           "zIndex": 1,
@@ -741,6 +724,108 @@
             "fit": "contain",
             "altText": "Logo (200x30)"
           }
+        },
+        {
+          "id": "text-qg5j0xe-mtcunz37",
+          "type": "text",
+          "xMm": 109,
+          "yMm": 91,
+          "widthMm": 32,
+          "heightMm": 6,
+          "zIndex": 1,
+          "opacity": 1,
+          "style": {
+            "fontSize": 11,
+            "color": "#000000",
+            "bold": true,
+            "lineHeight": 1.5
+          },
+          "content": "SCORING"
+        },
+        {
+          "id": "text-idgze4w-mtcuodj3",
+          "type": "text",
+          "xMm": 109,
+          "yMm": 97,
+          "widthMm": 32,
+          "heightMm": 6,
+          "zIndex": 1,
+          "opacity": 1,
+          "style": {
+            "fontSize": 11,
+            "color": "#000000",
+            "bold": true,
+            "lineHeight": 1.5
+          },
+          "content": "TARGETS"
+        },
+        {
+          "id": "text-dd9wfpw-mtcuoorr",
+          "type": "text",
+          "xMm": 109,
+          "yMm": 103,
+          "widthMm": 32,
+          "heightMm": 6,
+          "zIndex": 1,
+          "opacity": 1,
+          "style": {
+            "fontSize": 11,
+            "color": "#000000",
+            "bold": true,
+            "lineHeight": 1.5
+          },
+          "content": "SCORED HITS"
+        },
+        {
+          "id": "text-xxqxvtn-mtcuotov",
+          "type": "text",
+          "xMm": 109,
+          "yMm": 109,
+          "widthMm": 32,
+          "heightMm": 6,
+          "zIndex": 1,
+          "opacity": 1,
+          "style": {
+            "fontSize": 11,
+            "color": "#000000",
+            "bold": true,
+            "lineHeight": 1.5
+          },
+          "content": "CONCEALMENT"
+        },
+        {
+          "id": "text-ulybm7z-mtcuoyur",
+          "type": "text",
+          "xMm": 109,
+          "yMm": 115,
+          "widthMm": 32,
+          "heightMm": 6,
+          "zIndex": 1,
+          "opacity": 1,
+          "style": {
+            "fontSize": 11,
+            "color": "#000000",
+            "bold": true,
+            "lineHeight": 1.5
+          },
+          "content": "MUZZLE SAFE"
+        },
+        {
+          "id": "text-zx1ye3v-mtcup3wo",
+          "type": "text",
+          "xMm": 109,
+          "yMm": 122,
+          "widthMm": 30,
+          "heightMm": 6,
+          "zIndex": 1,
+          "opacity": 1,
+          "style": {
+            "fontSize": 11,
+            "color": "#000000",
+            "bold": true,
+            "lineHeight": 1.5
+          },
+          "content": "NOTES"
         }
       ]
     },
