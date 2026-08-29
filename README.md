@@ -54,7 +54,32 @@ $ python idpawsb.py --tag-version "v1-distances" "../Match/Stages/Stage {1,2,3}.
 ```
 
 Process multiple stages removing retaining only the first 2 pages (removing 3rd page).
+
 ```sh
 $ python idpawsb.py --tag-version "v1" --pages 1 2 "../Match/Stages/Stage 1.html"
 -> "../Match/Stages/Stage 1 Processed.html"
+```
+
+## PDF Generation
+
+Run [Gotenberg](https://gotenberg.dev/) API.
+
+```sh
+$ docker run --rm -p "3000:3000" gotenberg/gotenberg:8
+```
+
+Convert HTML to PDF.
+
+```sh
+$ python pdfwsb.py "../Match/Stages/Stage {1,2,3} Processed.html"
+-> "../Match/Stages/Stage 1 Processed.pdf"
+-> "../Match/Stages/Stage 2 Processed.pdf"
+-> "../Match/Stages/Stage 3 Processed.pdf"
+```
+
+Merge PDFs.
+
+```sh
+$ python pdfwsb.py -m "../Match/Stages/Stage {1,2,3} Processed.pdf" -o "Stages.pdf"
+-> "../Match/Stages/Stages.pdf"
 ```
