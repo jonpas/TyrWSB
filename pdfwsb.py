@@ -5,7 +5,6 @@ import sys
 from pathlib import Path
 
 from gotenberg_client import GotenbergClient
-from pypdf import PdfWriter
 
 GOTENBERG_API = "http://localhost:3000"
 
@@ -60,6 +59,15 @@ def main():
     for file in args.files:
         if not file.exists():
             parser.error(f"invalid file: '{file}'")
+
+    # Health check
+    with GotenbergClient(GOTENBERG_API) as client:
+        try:
+            health = client.health.health()
+            print(f"Health: overall={health.overall}, chromium={health.chromium.status}")
+        except Exception as e:
+            print(f"is Gotenberg running? {e}")
+            return 1
 
     # Process
     if args.merge:
