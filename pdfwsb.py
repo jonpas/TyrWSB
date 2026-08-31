@@ -30,6 +30,7 @@ def html_to_pdf(file):
             output = file.with_suffix(".pdf")
             response.to_file(output)
             print(f"-> '{output}'")
+            print("note: pdf compression is recommended")
 
 
 def merge_pdfs(files, out):
@@ -46,6 +47,7 @@ def merge_pdfs(files, out):
             output = files[0].parent / out
             response.to_file(output)
             print(f"-> '{output}'")
+            print("note: pdf compression is recommended")
 
 
 def main():
