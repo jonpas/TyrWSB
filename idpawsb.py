@@ -32,8 +32,22 @@ def process_export(file, args):
     if scoredhitsnotes:
         newscoredhits = re.search(r"^Scored Hits:\s*(.*)$", scoredhitsnotes.string, flags=re.IGNORECASE | re.MULTILINE).group(1).strip()
         scoredhits.string = f"Best {newscoredhits}"
+        print(f"custom scored hits: {newscoredhits} => {scoredhits.string}")
         scoredhitsnotes.string = re.sub(r"\r?\n?^Scored Hits:.*$", "", scoredhitsnotes.string, count=1, flags=re.IGNORECASE | re.MULTILINE)
         wsbscoredhits.string = re.sub(r"Best \d+ will be scored", f"Best {newscoredhits} will be scored", wsbscoredhits.string, count=1, flags=re.IGNORECASE)
+
+    # Move custom Targets from Notes (eg. "Targets: Plate -> Clay")
+    targets = soup.find("span", string=re.compile(r"^\d+ Threat", flags=re.IGNORECASE))
+    targetsnotes = soup.find("span", string=re.compile(r"Targets:", flags=re.IGNORECASE))
+    wsbtargets = soup.find("span", string=re.compile(r"with \d+ Threat", flags=re.IGNORECASE))
+    if targetsnotes:
+        targetssearch = re.search(r"^Targets:\s*(.*)\s*->\s*(.*)$", targetsnotes.string, flags=re.IGNORECASE | re.MULTILINE)
+        targetsfrom = targetssearch.group(1).strip()
+        targetsto = targetssearch.group(2).strip()
+        targets.string = targets.string.replace(targetsfrom, targetsto)
+        print(f"custom targets: {targetsfrom} -> {targetsto} => {targets.string}")
+        targetsnotes.string = re.sub(r"\r?\n?^Targets:.*$", "", targetsnotes.string, count=1, flags=re.IGNORECASE | re.MULTILINE)
+        wsbtargets.string = re.sub(fr"with (.*){targetsfrom}(.*)\.", fr"with \1{targetsto}\2.", wsbtargets.string, count=1, flags=re.IGNORECASE)
 
     # Scoring & Hint Bullet
     scoring = soup.find("span", string=re.compile(r"^\d* rounds, \w*$", flags=re.IGNORECASE))
@@ -51,9 +65,9 @@ def process_export(file, args):
         hintbullet.string = ""
         hintbullet.append(soup.new_tag("span", string="⚠", style="color:#ff0000;"))
 
-        # Replace "Best N" with "Worst N" in Limited scoring
-        scoredhits.string = scoredhits.string.replace("Best", "Worst")
-        wsbscoredhits.string = wsbscoredhits.string.replace("Best", "Worst")
+        # Replace "Best N" with just "N" in Limited scoring
+        scoredhits.string = scoredhits.string.replace("Best ", "")
+        wsbscoredhits.string = wsbscoredhits.string.replace("Best ", "")
 
     # Concealment & Hint Vest
     vest = soup.find("span", string=re.compile(r"^\w*\s*Required$", flags=re.IGNORECASE))
