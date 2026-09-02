@@ -152,9 +152,6 @@ def process_template(file):
         print(f"skipping export file '{file.name}'!")
         return 1
 
-    # Improve CSS
-    soup.style.string = soup.style.string.replace("overflow: hidden;", "")  # allow longer text to overlap (to spot it easier)
-
     # Set match logo image path
     soup.find("img", src="[[custom-image:logo]]")["src"] = "WSB-Logo.svg"
 

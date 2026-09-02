@@ -190,7 +190,8 @@
             "textAlign": "center",
             "bold": true,
             "lineHeight": 1.5,
-            "verticalAlign": "center"
+            "verticalAlign": "center",
+            "overflow": "visible"
           },
           "field": "stage-name",
           "content": "Stage Name"
@@ -210,7 +211,8 @@
             "textAlign": "center",
             "lineHeight": 1.5,
             "italic": false,
-            "verticalAlign": "top"
+            "verticalAlign": "top",
+            "overflow": "visible"
           },
           "field": "designer-name",
           "content": "Designer Name"
@@ -228,7 +230,8 @@
             "fontSize": 11,
             "color": "#000000",
             "lineHeight": 1.2,
-            "verticalAlign": "top"
+            "verticalAlign": "top",
+            "overflow": "visible"
           },
           "field": "start-position",
           "content": "Start Position"
@@ -244,7 +247,8 @@
           "opacity": 1,
           "style": {
             "fontSize": 11,
-            "color": "#000000"
+            "color": "#000000",
+            "overflow": "visible"
           },
           "field": "procedure",
           "content": "Procedure"
@@ -262,7 +266,8 @@
             "fontSize": 11,
             "color": "#000000",
             "bold": true,
-            "lineHeight": 1.5
+            "lineHeight": 1.5,
+            "overflow": "visible"
           },
           "content": "SCENARIO\n"
         },
@@ -279,7 +284,8 @@
             "fontSize": 11,
             "color": "#000000",
             "bold": true,
-            "lineHeight": 1.5
+            "lineHeight": 1.5,
+            "overflow": "visible"
           },
           "content": "START POSITION"
         },
@@ -296,7 +302,8 @@
             "fontSize": 11,
             "color": "#000000",
             "bold": true,
-            "lineHeight": 1.5
+            "lineHeight": 1.5,
+            "overflow": "visible"
           },
           "content": "STAGE PROCEDURE"
         },
@@ -311,7 +318,8 @@
           "opacity": 1,
           "style": {
             "fontSize": 11,
-            "color": "#000000"
+            "color": "#000000",
+            "overflow": "visible"
           },
           "field": "full-briefing",
           "content": "Full Briefing"
@@ -362,7 +370,8 @@
             "color": "#000000",
             "bold": false,
             "lineHeight": 1.5,
-            "verticalAlign": "top"
+            "verticalAlign": "top",
+            "overflow": "visible"
           },
           "content": "[[num-rounds]] rounds, [[scoring-type]]"
         },
@@ -381,7 +390,8 @@
             "textAlign": "center",
             "bold": true,
             "lineHeight": 1,
-            "verticalAlign": "center"
+            "verticalAlign": "center",
+            "overflow": "visible"
           },
           "content": "#"
         },
@@ -535,7 +545,8 @@
             "color": "#000000",
             "bold": false,
             "lineHeight": 1.5,
-            "verticalAlign": "top"
+            "verticalAlign": "top",
+            "overflow": "visible"
           },
           "content": "[[num-paper]] Threat, [[num-noshoots]] Non-Threat, [[num-steel]] Plate"
         },
@@ -553,7 +564,8 @@
             "color": "#000000",
             "bold": false,
             "lineHeight": 1.5,
-            "verticalAlign": "top"
+            "verticalAlign": "top",
+            "overflow": "visible"
           },
           "content": "Best [[num-per-paper]]"
         },
@@ -571,7 +583,8 @@
             "color": "#000000",
             "bold": false,
             "lineHeight": 1.5,
-            "verticalAlign": "top"
+            "verticalAlign": "top",
+            "overflow": "visible"
           },
           "content": "[[concealment]]"
         },
@@ -589,7 +602,8 @@
             "color": "#000000",
             "bold": false,
             "lineHeight": 1.5,
-            "verticalAlign": "top"
+            "verticalAlign": "top",
+            "overflow": "visible"
           },
           "content": "[[muzzle-safe]]"
         },
@@ -607,7 +621,8 @@
             "color": "#000000",
             "bold": false,
             "lineHeight": 1.5,
-            "verticalAlign": "top"
+            "verticalAlign": "top",
+            "overflow": "visible"
           },
           "content": "[[build-notes]]"
         },
@@ -623,7 +638,8 @@
           "style": {
             "fontSize": 9,
             "color": "#000000",
-            "lineHeight": 1.5
+            "lineHeight": 1.5,
+            "overflow": "visible"
           },
           "field": "distances",
           "content": "Distances"
@@ -641,7 +657,8 @@
             "fontSize": 9,
             "color": "#000000",
             "bold": true,
-            "lineHeight": 1.5
+            "lineHeight": 1.5,
+            "overflow": "visible"
           },
           "content": "DISTANCES"
         },
@@ -738,7 +755,8 @@
             "fontSize": 11,
             "color": "#000000",
             "bold": true,
-            "lineHeight": 1.5
+            "lineHeight": 1.5,
+            "overflow": "visible"
           },
           "content": "SCORING"
         },
@@ -755,7 +773,8 @@
             "fontSize": 11,
             "color": "#000000",
             "bold": true,
-            "lineHeight": 1.5
+            "lineHeight": 1.5,
+            "overflow": "visible"
           },
           "content": "TARGETS"
         },
@@ -772,7 +791,8 @@
             "fontSize": 11,
             "color": "#000000",
             "bold": true,
-            "lineHeight": 1.5
+            "lineHeight": 1.5,
+            "overflow": "visible"
           },
           "content": "SCORED HITS"
         },
@@ -789,7 +809,8 @@
             "fontSize": 11,
             "color": "#000000",
             "bold": true,
-            "lineHeight": 1.5
+            "lineHeight": 1.5,
+            "overflow": "visible"
           },
           "content": "CONCEALMENT"
         },
@@ -806,7 +827,8 @@
             "fontSize": 11,
             "color": "#000000",
             "bold": true,
-            "lineHeight": 1.5
+            "lineHeight": 1.5,
+            "overflow": "visible"
           },
           "content": "MUZZLE SAFE"
         },
@@ -823,7 +845,8 @@
             "fontSize": 11,
             "color": "#000000",
             "bold": true,
-            "lineHeight": 1.5
+            "lineHeight": 1.5,
+            "overflow": "visible"
           },
           "content": "NOTES"
         }
@@ -847,7 +870,8 @@
             "textAlign": "center",
             "bold": true,
             "lineHeight": 1.5,
-            "verticalAlign": "center"
+            "verticalAlign": "center",
+            "overflow": "visible"
           },
           "field": "stage-name",
           "content": "Stage Name"
@@ -867,7 +891,8 @@
             "textAlign": "center",
             "lineHeight": 1.5,
             "italic": false,
-            "verticalAlign": "top"
+            "verticalAlign": "top",
+            "overflow": "visible"
           },
           "field": "designer-name",
           "content": "Designer Name"
@@ -886,7 +911,8 @@
             "color": "#000000",
             "bold": true,
             "textAlign": "center",
-            "verticalAlign": "center"
+            "verticalAlign": "center",
+            "overflow": "visible"
           },
           "content": "ADDITIONAL VIEWS"
         },
@@ -945,7 +971,8 @@
             "textAlign": "center",
             "bold": true,
             "lineHeight": 1.5,
-            "verticalAlign": "center"
+            "verticalAlign": "center",
+            "overflow": "visible"
           },
           "field": "stage-name",
           "content": "Stage Name"
@@ -965,7 +992,8 @@
             "textAlign": "center",
             "lineHeight": 1.5,
             "italic": false,
-            "verticalAlign": "top"
+            "verticalAlign": "top",
+            "overflow": "visible"
           },
           "field": "designer-name",
           "content": "Designer Name"
@@ -981,7 +1009,8 @@
           "opacity": 1,
           "style": {
             "fontSize": 15,
-            "color": "#000000"
+            "color": "#000000",
+            "overflow": "visible"
           },
           "content": "Stage is [[scoring-type]], [[num-rounds]] rounds, with [[num-paper]] Threats, [[num-noshoots]] Non-Threats, [[num-steel]] Plates. Best [[num-per-paper]] will be scored. Concealment is [[concealment]]. Muzzle safety is [[muzzle-safe]].",
           "contentNodes": [
@@ -1069,7 +1098,8 @@
             "color": "#000000",
             "bold": true,
             "textAlign": "center",
-            "verticalAlign": "center"
+            "verticalAlign": "center",
+            "overflow": "visible"
           },
           "content": "WRITTEN STAGE BRIEFING"
         },
@@ -1084,7 +1114,8 @@
           "opacity": 1,
           "style": {
             "fontSize": 15,
-            "color": "#000000"
+            "color": "#000000",
+            "overflow": "visible"
           },
           "content": "Welcome to [[stage-name]], we are <names> and we are the SOs for this stage."
         },
@@ -1100,7 +1131,8 @@
           "style": {
             "fontSize": 15,
             "color": "#000000",
-            "bold": true
+            "bold": true,
+            "overflow": "visible"
           },
           "content": "SCENARIO"
         },
@@ -1116,7 +1148,8 @@
           "style": {
             "fontSize": 15,
             "color": "#000000",
-            "bold": true
+            "bold": true,
+            "overflow": "visible"
           },
           "content": "START POSITION"
         },
@@ -1132,7 +1165,8 @@
           "style": {
             "fontSize": 15,
             "color": "#000000",
-            "bold": true
+            "bold": true,
+            "overflow": "visible"
           },
           "content": "STAGE PROCEDURE"
         },
@@ -1147,7 +1181,8 @@
           "opacity": 1,
           "style": {
             "fontSize": 15,
-            "color": "#000000"
+            "color": "#000000",
+            "overflow": "visible"
           },
           "field": "start-position",
           "content": "Start Position"
@@ -1163,7 +1198,8 @@
           "opacity": 1,
           "style": {
             "fontSize": 15,
-            "color": "#000000"
+            "color": "#000000",
+            "overflow": "visible"
           },
           "field": "procedure",
           "content": "Start Position"
@@ -1179,7 +1215,8 @@
           "opacity": 1,
           "style": {
             "fontSize": 15,
-            "color": "#000000"
+            "color": "#000000",
+            "overflow": "visible"
           },
           "field": "full-briefing",
           "content": "Start Position"
@@ -1212,7 +1249,8 @@
           "style": {
             "fontSize": 15,
             "color": "#000000",
-            "bold": true
+            "bold": true,
+            "overflow": "visible"
           },
           "content": "NOTES\n"
         },
@@ -1227,7 +1265,8 @@
           "opacity": 1,
           "style": {
             "fontSize": 15,
-            "color": "#000000"
+            "color": "#000000",
+            "overflow": "visible"
           },
           "field": "build-notes",
           "content": "Start Position"
