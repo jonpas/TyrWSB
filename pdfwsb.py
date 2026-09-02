@@ -50,11 +50,32 @@ def merge_pdfs(files, out):
             print("note: pdf compression is recommended")
 
 
+def split_pdf(file, chunk=2):
+    # Safe-guard non-pdf if passed by mistake
+    if file.suffix != ".pdf":
+        print(f"non-pdf file '{file.name}' found!")
+        return 1
+
+    with GotenbergClient(GOTENBERG_API) as client:
+        with client.split.split() as route:
+            response = (
+                route.split(file)
+                .split_mode("intervals")
+                .split_span(f"{chunk}")
+                .run()
+            )
+
+            output = file.with_suffix(".zip")
+            response.to_file(output)
+            print(f"-> '{output}'")
+
+
 def main():
     # Parse arguments
     parser = argparse.ArgumentParser(description="Converts WSB to PDF and merges them.")
     parser.add_argument("files", type=Path, nargs="+", help="path to WSB HTML export")
     parser.add_argument("-m", "--merge", action="store_true", help="merge PDFs")
+    parser.add_argument("-s", "--split", type=int, help="split PDFs into chunks")
     parser.add_argument("-o", "--out", type=str, default="Stages.pdf", help="output file name (merged PDF)")
     args = parser.parse_args()
 
@@ -75,6 +96,10 @@ def main():
     if args.merge:
         print("merging PDFs")
         merge_pdfs(args.files, args.out)
+    elif args.split:
+        for file in args.files:
+            print(f"splitting '{file}' (chunk={args.split})")
+            split_pdf(file, chunk=args.split)
     else:
         for file in args.files:
             print(f"converting '{file}' to PDF")
