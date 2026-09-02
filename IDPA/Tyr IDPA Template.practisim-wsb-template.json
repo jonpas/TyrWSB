@@ -1,5 +1,5 @@
 {
-  "version": 1,
+  "version": 2,
   "name": "Tyr IDPA Template",
   "page": {
     "size": "letter",
@@ -437,8 +437,8 @@
         {
           "id": "text-fcswvxn-mst1mh9u",
           "type": "text",
-          "xMm": 189.5,
-          "yMm": 75.6,
+          "xMm": 189,
+          "yMm": 76,
           "widthMm": 13,
           "heightMm": 13,
           "zIndex": 1,
@@ -471,7 +471,7 @@
         {
           "id": "image-1eg8tls-mst3e8oc",
           "type": "image",
-          "xMm": 167,
+          "xMm": 168,
           "yMm": 79.5,
           "widthMm": 10,
           "heightMm": 8.5,
@@ -486,7 +486,7 @@
         {
           "id": "text-7w6v3xz-mst3mfly",
           "type": "text",
-          "xMm": 168.5,
+          "xMm": 169,
           "yMm": 79,
           "widthMm": 8.5,
           "heightMm": 9,
@@ -505,7 +505,7 @@
         {
           "id": "text-jp45jfh-mst584sy",
           "type": "text",
-          "xMm": 151.5,
+          "xMm": 152,
           "yMm": 79,
           "widthMm": 8,
           "heightMm": 8.5,
@@ -983,7 +983,77 @@
             "fontSize": 15,
             "color": "#000000"
           },
-          "content": "Stage is [[scoring-type]], [[num-rounds]] rounds, with [[num-paper]] Threats, [[num-noshoots]] Non-Threats, [[num-steel]] Plates. Best [[num-per-paper]] will be scored. Concealment is [[concealment]]. Muzzle safety is [[muzzle-safe]]."
+          "content": "Stage is [[scoring-type]], [[num-rounds]] rounds, with [[num-paper]] Threats, [[num-noshoots]] Non-Threats, [[num-steel]] Plates. Best [[num-per-paper]] will be scored. Concealment is [[concealment]]. Muzzle safety is [[muzzle-safe]].",
+          "contentNodes": [
+            {
+              "type": "text",
+              "value": "Stage is "
+            },
+            {
+              "type": "field",
+              "field": "scoring-type"
+            },
+            {
+              "type": "text",
+              "value": ", "
+            },
+            {
+              "type": "field",
+              "field": "num-rounds"
+            },
+            {
+              "type": "text",
+              "value": " rounds, with "
+            },
+            {
+              "type": "field",
+              "field": "num-paper"
+            },
+            {
+              "type": "text",
+              "value": " Threat, "
+            },
+            {
+              "type": "field",
+              "field": "num-noshoots"
+            },
+            {
+              "type": "text",
+              "value": " Non-Threat, "
+            },
+            {
+              "type": "field",
+              "field": "num-steel"
+            },
+            {
+              "type": "text",
+              "value": " Plate. Best "
+            },
+            {
+              "type": "field",
+              "field": "num-per-paper"
+            },
+            {
+              "type": "text",
+              "value": " will be scored. Concealment is "
+            },
+            {
+              "type": "field",
+              "field": "concealment"
+            },
+            {
+              "type": "text",
+              "value": ". Muzzle safety is "
+            },
+            {
+              "type": "field",
+              "field": "muzzle-safe"
+            },
+            {
+              "type": "text",
+              "value": "."
+            }
+          ]
         },
         {
           "id": "text-70mdvm2-mst5nfk7",
